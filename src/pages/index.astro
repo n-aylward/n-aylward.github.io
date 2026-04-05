@@ -1,0 +1,489 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+---
+
+<Layout>
+  <Header />
+  <main id="main-content" class="app-layout">
+    <!-- Hero -->
+    <section id="hero" class="border-b border-border py-10 font-mono">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 class="text-4xl font-bold sm:text-5xl">Nick Aylward</h1>
+          <p class="mt-1 text-xl text-accent font-medium">Technical Writer</p>
+        </div>
+        <a
+          href="/assets/aylward-nickolas-resume.pdf"
+          class="inline-flex items-center gap-2 rounded-md border border-accent bg-accent/10 px-5 py-2.5 text-sm font-semibold text-accent transition hover:bg-accent hover:text-background"
+          download
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+            />
+          </svg>
+          Download Resume
+        </a>
+      </div>
+    </section>
+
+    <!-- Professional Skills -->
+    <section id="skills" class="border-b border-border py-10">
+      <h2 class="mb-5 text-2xl font-semibold tracking-wide text-accent">
+        Professional Skills
+      </h2>
+      <div class="grid gap-6 sm:grid-cols-2">
+        <div class="rounded-lg border border-border bg-muted/30 p-5">
+          <h3 class="mb-3 font-semibold text-foreground">Proficiency</h3>
+          <div class="flex flex-wrap gap-2">
+            {[
+              "Windows",
+              "HTML",
+              "CSS",
+              "Bootstrap",
+              "Git",
+              "SVN",
+              "MadCap Flare",
+              "MadCap Capture",
+              "Pendo",
+              "Snagit",
+              "Camtasia",
+              "Jira",
+              "Confluence",
+              "Microsoft Office",
+              "Freshdesk",
+            ].map(skill => (
+              <span class="rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-sm text-foreground">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div class="rounded-lg border border-border bg-muted/30 p-5">
+          <h3 class="mb-3 font-semibold text-foreground">Familiarity</h3>
+          <div class="flex flex-wrap gap-2">
+            {[
+              "Ubuntu",
+              "JavaScript",
+              "Liquid",
+              "LaTeX",
+              "DataTables",
+              "GitHub",
+              "Bitbucket",
+              "VS Code",
+              "Postman",
+              "InDesign",
+              "Photoshop",
+              "Lightroom",
+              "Dreamweaver",
+              "InVision",
+              "Google Search Console",
+            ].map(skill => (
+              <span class="rounded-full border border-border bg-muted/50 px-3 py-1 text-sm text-foreground">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work Experience -->
+    <section id="experience" class="border-b border-border py-10">
+      <h2 class="mb-8 text-2xl font-semibold tracking-wide text-accent">
+        Work Experience
+      </h2>
+
+      <div class="space-y-10">
+        <!-- DataRobot -->
+        <div>
+          <div class="mb-1 flex flex-col">
+            <h3 class="text-lg font-bold">DataRobot</h3>
+            <span class="text-sm text-foreground/60">
+              January 2022 – Present
+            </span>
+          </div>
+
+          <div class="mt-3 space-y-5 border-l-2 border-border pl-5">
+            <div>
+              <div class="flex flex-col">
+                <p class="text-sm font-semibold text-accent">
+                  Principal Technical Writer
+                </p>
+                <span class="text-sm text-foreground/60">
+                  September 2024 – Present
+                </span>
+              </div>
+              <ul class="mt-2 space-y-2 text-sm leading-relaxed">
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Built DataRobot's initial Agentic AI documentation,
+                  including agent development guides,
+                  tracing/evaluation/moderation infrastructure, and template
+                  walkthroughs (including an NVIDIA-specific track).
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Authored DataRobot's public-facing Workload API documentation
+                  (tutorial, CLI reference, and install guide), translating
+                  internal engineering documentation into user-facing content.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Maintain the docs site's Harness/MkDocs CI pipeline, shipping
+                  fixes for redirect handling (including .ipynb files and edge
+                  cases), heading-hierarchy checks, prose linting, and
+                  link-checker exclusions.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Extended DataRobot's machine-readable documentation exports
+                  (llm.txt, docs-llm.zip, and sidecar markdown pages alongside
+                  each doc) and fixed markdown-link handling for LLM and agent
+                  consumers of the doc site.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Built and used a Python/Pillow-based image pipeline to resize,
+                  optimize, and recolor callout graphics across the docs site.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Prototyped an internal automation that drafts release notes
+                  directly from merged pull requests.
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <div class="flex flex-col">
+                <p class="text-sm font-semibold text-accent">
+                  Senior Technical Writer
+                </p>
+                <span class="text-sm text-foreground/60">
+                  February 2023 – September 2024
+                </span>
+              </div>
+              <ul class="mt-2 space-y-2 text-sm leading-relaxed">
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Documented DataRobot's platform-wide migration from its
+                  Classic UI to NextGen, covering Model Registry, Custom Models
+                  Workshop, Custom Jobs, and the Deployment Console.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Led early documentation for DataRobot's Generative AI and LLM
+                  capabilities, including LLM Evaluation, Prompt Monitoring, and
+                  Generative AI performance tracking.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Documented well over 100 feature releases spanning batch
+                  prediction, monitoring, and custom-metrics capabilities.
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <div class="flex flex-col">
+                <p class="text-sm font-semibold text-accent">
+                  Technical Writer
+                </p>
+                <span class="text-sm text-foreground/60">
+                  January 2022 – February 2023
+                </span>
+              </div>
+              <ul class="mt-2 space-y-2 text-sm leading-relaxed">
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Documented MLOps and Custom Models features across a monthly
+                  release cadence, including deployment monitoring, custom model
+                  environments, scoring code, and compliance documentation.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Led a two-part refactor of the Custom Models documentation and
+                  consolidated the MLOps chapter structure to cut redundant
+                  content.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Fixed local doc-portal build failures and a Poetry-related CI
+                  build breakage.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Onapsis -->
+        <div>
+          <div class="mb-1 flex flex-col">
+            <h3 class="text-lg font-bold">Onapsis Inc. / Product Team</h3>
+            <span class="text-sm text-foreground/60">
+              January 2021 – November 2021
+            </span>
+          </div>
+          <p class="mb-3 text-sm font-semibold text-accent">
+            Product Documentation Specialist
+          </p>
+          <ul class="space-y-2 text-sm leading-relaxed">
+            <li class="flex gap-2">
+              <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+              Worked in an Agile product team during a fast-paced transitional
+              period, producing documentation in two-week sprints and
+              participating in standups to track progress.
+            </li>
+            <li class="flex gap-2">
+              <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+              Built Pendo guides, walk-throughs, banners, and toasts to assist
+              users within our product and facilitate the transition to a new
+              user interface.
+            </li>
+            <li class="flex gap-2">
+              <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+              Contributed to a help center rebrand, providing custom CSS styles
+              and a CSS Grid homepage layout.
+            </li>
+            <li class="flex gap-2">
+              <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+              Assisted with security team initiatives, providing a JavaScript
+              proof of concept for securing external links and helping implement
+              the eventual MadCap Flare post-build event solution.
+            </li>
+            <li class="flex gap-2">
+              <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+              Contributed to our HTML table sort and filter implementation in
+              MadCap Flare, creating custom CSS classes to import
+              use-case-specific DataTables functions by topic.
+            </li>
+            <li class="flex gap-2">
+              <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+              Expanded our in-product changelogs for SAP Security Note support
+              and proprietary Onapsis roles.
+            </li>
+            <li class="flex gap-2">
+              <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+              Created a customer-facing guide for our most difficult third-party
+              deployment, walking the user through the creation and
+              configuration of a Microsoft Azure VM for the Onapsis Platform.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Rediker -->
+        <div>
+          <div class="mb-1 flex flex-col">
+            <h3 class="text-lg font-bold">
+              Rediker Software, Inc. / Software Development Department
+            </h3>
+            <span class="text-sm text-foreground/60">
+              October 2016 – January 2021
+            </span>
+          </div>
+
+          <div class="mt-3 space-y-5 border-l-2 border-border pl-5">
+            <div>
+              <div class="flex flex-col">
+                <p class="text-sm font-semibold text-accent">
+                  Technical Writer and Team Lead
+                </p>
+                <span class="text-sm text-foreground/60">
+                  October 2017 – January 2021
+                </span>
+              </div>
+              <ul class="mt-2 space-y-2 text-sm leading-relaxed">
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Evaluated the feasibility of a Confluence-based documentation
+                  site and took the lead on design and information architecture
+                  during the implementation process.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Created COVID-19 resources (using Bootstrap 4 and MadCap
+                  Flare) to assist schools with online learning, emergency
+                  communication, contact tracing, and health screening.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Worked with company leadership and product owners to identify
+                  and address documentation needs across our range of school
+                  information software.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Interviewed, onboarded, and trained technical writers.
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <div class="flex flex-col">
+                <p class="text-sm font-semibold text-accent">
+                  Technical Writer
+                </p>
+                <span class="text-sm text-foreground/60">
+                  June 2017 – October 2017
+                </span>
+              </div>
+              <ul class="mt-2 space-y-2 text-sm leading-relaxed">
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Developed a customer portal and knowledge base in Freshdesk
+                  using HTML, CSS, and the Liquid template language.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Created a structured release-notes process with responsive web
+                  and email templates.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Converted an outdated MadCap Flare project from Flare 12 to
+                  Flare 2020 by resolving compatibility issues due to custom CSS
+                  and jQuery.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Improved the search engine optimization of our documentation
+                  site using Google Search Console.
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <div class="flex flex-col">
+                <p class="text-sm font-semibold text-accent">
+                  Junior Technical Writer
+                </p>
+                <span class="text-sm text-foreground/60">
+                  October 2016 – June 2017
+                </span>
+              </div>
+              <ul class="mt-2 space-y-2 text-sm leading-relaxed">
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Wrote, edited, and published end-user software documentation
+                  and release notes in MadCap Flare, Freshdesk, and Adxstudio
+                  Portals, working closely with subject matter experts to verify
+                  content.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Created and implemented a find-and-replace process using
+                  regular expressions to convert blocks of MadCap Flare
+                  drop-down XML to standard HTML headings.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- UMass Health Services -->
+        <div>
+          <div class="mb-1 flex flex-col">
+            <h3 class="text-lg font-bold">
+              UMass Amherst / University Health Services
+            </h3>
+            <span class="text-sm text-foreground/60">
+              September 2014 – August 2015
+            </span>
+          </div>
+          <p class="mb-3 text-sm font-semibold text-accent">
+            New Student Immunization Program Assistant
+          </p>
+          <ul class="space-y-2 text-sm leading-relaxed">
+            <li class="flex gap-2">
+              <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+              Transcribed student immunization records to GE Centricity EMR and
+              verified compliance with Massachusetts School Immunization
+              Requirements.
+            </li>
+            <li class="flex gap-2">
+              <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+              Contacted students with incomplete or invalid immunization records
+              and provided guidance to reach compliance with immunization
+              standards.
+            </li>
+          </ul>
+        </div>
+
+        <!-- UMass OEB -->
+        <div>
+          <div class="mb-1 flex flex-col">
+            <h3 class="text-lg font-bold">
+              UMass Amherst / Organismic and Evolutionary Biology Department
+            </h3>
+            <span class="text-sm text-foreground/60">
+              May 2014 – September 2014
+            </span>
+          </div>
+          <p class="mb-3 text-sm font-semibold text-accent">
+            Undergraduate Research Assistant
+          </p>
+          <ul class="space-y-2 text-sm leading-relaxed">
+            <li class="flex gap-2">
+              <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+              Collected acoustic data in the field from Song Sparrows at various
+              stages of development.
+            </li>
+            <li class="flex gap-2">
+              <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+              Worked as a team to attract, mist net, measure, band, and safely
+              release Song Sparrows and bycatch.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education" class="py-10">
+      <h2 class="mb-6 text-2xl font-semibold tracking-wide text-accent">
+        Education
+      </h2>
+      <div>
+        <div class="mb-1 flex flex-col">
+          <h3 class="text-lg font-bold">University of Massachusetts Amherst</h3>
+          <span class="text-sm text-foreground/60">May 2016</span>
+        </div>
+        <p class="mb-3 text-sm font-semibold text-accent">
+          Bachelor of Arts in English with a minor in Biological Sciences
+        </p>
+
+        <div class="mt-5 rounded-lg border border-border bg-muted/30 p-5">
+          <h3 class="mb-3 font-semibold text-foreground">
+            Relevant Coursework
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            {[
+              "Introduction to Professional Writing",
+              "Introduction to Software Documentation",
+              "Professional Writing and Technical Communication Capstone",
+              "Introduction to Programming",
+              "Quantitative Systems Biology",
+            ].map(course => (
+              <span class="rounded-full border border-border bg-muted/50 px-3 py-1 text-sm text-foreground">
+                {course}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
