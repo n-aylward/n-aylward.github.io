@@ -1,0 +1,74 @@
+@import "tailwindcss";
+@import "./typography.css";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+:root,
+html[data-theme="light"] {
+  --background: #e2e4e6;
+  --foreground: #282728;
+  --accent: #4a90b8;
+  --muted: #ddeaf2;
+  --border: #ccdde8;
+}
+
+html[data-theme="dark"] {
+  --background: #1b2333;
+  --foreground: #ddeaf2;
+  --accent: #7ac2e0;
+  --muted: #253348;
+  --border: #2e4560;
+}
+
+@theme inline {
+  --font-app: "Spectral", serif;
+  --font-mono: var(--font-google-sans-code, monospace);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-accent/75;
+    scrollbar-width: auto;
+    scrollbar-color: var(--color-muted) transparent;
+  }
+  html {
+    @apply overflow-y-scroll scroll-smooth;
+  }
+  body {
+    @apply flex min-h-svh flex-col bg-background font-app text-foreground selection:bg-accent/75 selection:text-background text-[17px] sm:text-lg;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-google-sans-code, monospace);
+  }
+  a,
+  button {
+    @apply outline-offset-1 outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@utility max-w-app {
+  @apply max-w-4xl;
+}
+
+@utility app-layout {
+  @apply mx-auto w-full max-w-app px-4;
+}
+
+.active-nav {
+  @apply underline decoration-wavy decoration-2 underline-offset-8;
+}
+
+/* Source: https://piccalil.li/blog/a-more-modern-css-reset/ */
+/* Anything that has been anchored to should have extra scroll margin */
+:target {
+  scroll-margin-block: 1rem;
+}
