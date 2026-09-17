@@ -16,7 +16,7 @@ This starts a local dev server (Astro prints the URL, typically `http://localhos
 **Requirements:**
 
 - Node.js 22 (see `.node-version`; use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to match it automatically)
-- Google Chrome installed, for the PDF generation step (see [Single-sourcing the resume](#single-sourcing-the-resume) below). Not needed for `npm run dev`.
+- Google Chrome installed is recommended, for a fast/offline PDF generation step (see [Single-sourcing the resume](#single-sourcing-the-resume) below) — if it's missing, the build falls back to downloading a matching Chrome build automatically. Not needed for `npm run dev`.
 
 ## Editing the resume content
 
@@ -63,13 +63,15 @@ src/data/contacts.ts ┤
 - **DOCX generation** (`scripts/generate-resume-docx.mjs`) reads the same `src/data/resume.ts` / `src/data/contacts.ts` data and builds a Word document with the `docx` library — no browser involved.
 - Both scripts run automatically as part of `npm run build` (and therefore on every CI deploy — see below), so the published site's downloads are always regenerated fresh. The copies of the PDF/DOCX committed in `public/assets/` are kept up to date locally whenever you run a build, but if you edit resume content, run `npm run build` (or at least `npm run resume:docx`) and commit the refreshed files so the repo itself stays current too.
 
-**Chrome, not a downloaded browser:** `scripts/generate-resume-pdf.mjs` launches your machine's already-installed Google Chrome (`channel: "chrome"` in Puppeteer) rather than downloading a bundled Chromium (`.puppeteerrc.cjs` sets `skipDownload: true`). This keeps `npm install` fast and avoids depending on being able to reach Google's binary CDN. If Chrome isn't found, either install it, or point the script at a specific binary with:
+**Self-healing Chrome, not a bundled download:** `scripts/generate-resume-pdf.mjs` first tries your machine's already-installed Google Chrome (`channel: "chrome"` in Puppeteer) rather than downloading a bundled Chromium at `npm install` time (`.puppeteerrc.cjs` sets `skipDownload: true`, keeping installs fast). GitHub Actions' `ubuntu-latest` runners and macOS both ship Chrome preinstalled, so this fast path covers CI and local dev with no extra setup and no network call.
+
+If no system Chrome is found — for example on Cloudflare Pages, whose build image doesn't ship one — the script automatically falls back to downloading a version-matched Chrome build on demand via Puppeteer's own installer (`puppeteer browsers install chrome`), then launches that. This only runs when the fast path fails, so it needs network access to Google's Chrome-for-Testing bucket but otherwise requires no configuration.
+
+You can also point the script at a specific binary yourself, which always takes priority over both of the above:
 
 ```bash
 PUPPETEER_EXECUTABLE_PATH=/path/to/chrome npm run resume:pdf
 ```
-
-GitHub Actions' `ubuntu-latest` runners and macOS all ship with Chrome preinstalled, so CI and most local machines need no extra setup.
 
 ## Project structure
 

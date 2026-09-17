@@ -8,6 +8,16 @@
 // Requires a fresh `astro build` (run automatically first if dist/
 // isn't there yet). Runs automatically as part of `npm run build`,
 // after `astro build` and before pagefind indexing.
+//
+// Browser resolution is self-healing: we first try whatever Google
+// Chrome is already installed on the machine (fast, no network) —
+// this covers the user's own Mac and GitHub Actions' ubuntu-latest
+// runners, which both ship Chrome preinstalled. If no system Chrome
+// is found (e.g. Cloudflare Pages' build image, which doesn't ship
+// one), we fall back to downloading a version-matched Chrome build
+// on demand via Puppeteer's own installer CLI. `.puppeteerrc.cjs`
+// only disables the *automatic* download at `npm install` time; this
+// explicit, lazy CLI call is unaffected and only runs when needed.
 
 import { existsSync, copyFileSync, readFileSync } from "node:fs";
 import { createServer } from "node:http";
@@ -82,6 +92,71 @@ function serveDist() {
   });
 }
 
+/**
+ * Downloads a Puppeteer-managed, version-matched Chrome build via the
+ * `puppeteer` CLI and returns its executable path. Used as a fallback
+ * for CI images (like Cloudflare Pages) that don't ship a system
+ * Chrome. Requires network access to Google's Chrome-for-Testing
+ * bucket, which is available in most CI providers even when the local
+ * dev/test sandbox used while building this script was not.
+ */
+function installManagedChrome() {
+  console.log("[resume:pdf] downloading a matching Chrome build via `puppeteer browsers install`...");
+
+  const cliPath = path.join(ROOT, "node_modules", "puppeteer", "lib", "cjs", "puppeteer", "node", "cli.js");
+  const result = spawnSync(process.execPath, [cliPath, "browsers", "install", "chrome", "--format", "{{path}}"], {
+    cwd: ROOT,
+    encoding: "utf8",
+  });
+
+  if (result.status !== 0) {
+    const details = [result.stdout, result.stderr].filter(Boolean).join("\n");
+    throw new Error(`\`puppeteer browsers install chrome\` failed:\n${details}`);
+  }
+
+  // The CLI's stdout may include extra progress output ahead of the
+  // formatted path line, so scan for the line that's an actual,
+  // existing executable rather than assuming it's the last line.
+  const candidateLines = result.stdout
+    .split("\n")
+    .map(line => line.trim())
+    .filter(Boolean);
+  const executablePath = [...candidateLines].reverse().find(existsSync);
+
+  if (!executablePath) {
+    throw new Error(`Could not parse installed Chrome path from puppeteer CLI output:\n${result.stdout}`);
+  }
+
+  console.log(`[resume:pdf] installed Chrome at ${executablePath}`);
+  return executablePath;
+}
+
+async function launchBrowser() {
+  const baseOptions = {
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  };
+
+  // Explicit override always wins (handy for CI images or sandboxes
+  // with a non-standard Chrome install path).
+  if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+    return puppeteer.launch({ ...baseOptions, executablePath: process.env.PUPPETEER_EXECUTABLE_PATH });
+  }
+
+  try {
+    // Fast path: whatever Google Chrome is already installed on the
+    // machine. No network access required.
+    return await puppeteer.launch({ ...baseOptions, channel: "chrome" });
+  } catch (err) {
+    console.log(
+      `[resume:pdf] no system Chrome found (${err instanceof Error ? err.message : String(err)}); ` +
+        "falling back to a managed download..."
+    );
+    const executablePath = installManagedChrome();
+    return puppeteer.launch({ ...baseOptions, executablePath });
+  }
+}
+
 async function main() {
   ensureDistBuilt();
 
@@ -89,21 +164,7 @@ async function main() {
   const { port } = server.address();
   const url = `http://127.0.0.1:${port}/`;
 
-  const launchOptions = {
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  };
-  // Use a specific browser binary if one is provided (handy for CI images
-  // or sandboxes with a non-standard Chrome install path); otherwise fall
-  // back to whatever Google Chrome is already installed on the machine.
-  // We never download a bundled Chromium (see .puppeteerrc.cjs).
-  if (process.env.PUPPETEER_EXECUTABLE_PATH) {
-    launchOptions.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
-  } else {
-    launchOptions.channel = "chrome";
-  }
-
-  const browser = await puppeteer.launch(launchOptions);
+  const browser = await launchBrowser();
 
   try {
     const page = await browser.newPage();
