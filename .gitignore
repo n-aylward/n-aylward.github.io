@@ -35,3 +35,5 @@ _site/
 .sass-cache/
 .bundle/
 vendor/
+# Vale style packages (fetched via `vale sync`)
+styles/
