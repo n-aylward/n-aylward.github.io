@@ -67,6 +67,8 @@ src/data/contacts.ts ┤
 
 If no system Chrome is found — for example on Cloudflare Pages, whose build image doesn't ship one — the script automatically falls back to downloading a version-matched Chrome build on demand via Puppeteer's own installer (`puppeteer browsers install chrome`), then launches that. This only runs when the fast path fails, so it needs network access to Google's Chrome-for-Testing bucket but otherwise requires no configuration.
 
+Some build sandboxes can download a Chrome binary but still can't run it, because it's missing shared libraries (`libatk-1.0.so.0` and friends) and the sandbox has no package manager to install them — this is the case on Cloudflare Pages' build image specifically, which is a locked-down, non-root container with no `apt-get` access, and it's true for any Chrome build, not something a Puppeteer flag can work around. When launching fails for that reason, the script falls back one more time: it copies the PDF already checked into `public/assets/aylward-nickolas-resume.pdf` into `dist/` and exits successfully instead of failing the build. That checked-in copy is itself produced from the same single source of truth by every local build and by GitHub Actions (which does have a working Chrome), so as long as you commit it after resume content changes, this last-resort fallback still serves a correct, if not perfectly fresh, PDF.
+
 You can also point the script at a specific binary yourself, which always takes priority over both of the above:
 
 ```bash

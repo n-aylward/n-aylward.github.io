@@ -9,17 +9,28 @@
 // isn't there yet). Runs automatically as part of `npm run build`,
 // after `astro build` and before pagefind indexing.
 //
-// Browser resolution is self-healing: we first try whatever Google
-// Chrome is already installed on the machine (fast, no network) —
-// this covers the user's own Mac and GitHub Actions' ubuntu-latest
-// runners, which both ship Chrome preinstalled. If no system Chrome
-// is found (e.g. Cloudflare Pages' build image, which doesn't ship
-// one), we fall back to downloading a version-matched Chrome build
-// on demand via Puppeteer's own installer CLI. `.puppeteerrc.cjs`
-// only disables the *automatic* download at `npm install` time; this
-// explicit, lazy CLI call is unaffected and only runs when needed.
+// Browser resolution is self-healing, in three steps:
+//   1. Whatever Google Chrome is already installed on the machine
+//      (fast, no network) — covers the user's own Mac and GitHub
+//      Actions' ubuntu-latest runners, which both ship Chrome
+//      preinstalled.
+//   2. If no system Chrome is found, download a version-matched
+//      Chrome build on demand via Puppeteer's own installer CLI.
+//      `.puppeteerrc.cjs` only disables the *automatic* download at
+//      `npm install` time; this explicit, lazy CLI call is
+//      unaffected and only runs when needed.
+//   3. If a Chrome binary can be obtained but still won't *launch*
+//      (some CI build sandboxes — notably Cloudflare Pages' build
+//      image — have no system package manager and are missing the
+//      shared libraries any Chrome build needs, like libatk/libnss),
+//      fall back to the copy already checked into
+//      public/assets/aylward-nickolas-resume.pdf rather than failing
+//      the whole build. That checked-in copy is itself regenerated
+//      from the same single source of truth by every local build and
+//      by GitHub Actions (which does have a working Chrome), so it
+//      stays correct as long as it's committed after resume changes.
 
-import { existsSync, copyFileSync, readFileSync } from "node:fs";
+import { existsSync, copyFileSync, readFileSync, mkdirSync } from "node:fs";
 import { createServer } from "node:http";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -29,6 +40,8 @@ import puppeteer from "puppeteer";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const DIST = path.join(ROOT, "dist");
+const DIST_PDF_PATH = path.join(DIST, "assets", "aylward-nickolas-resume.pdf");
+const PUBLIC_PDF_PATH = path.join(ROOT, "public", "assets", "aylward-nickolas-resume.pdf");
 
 const MIME_TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -131,6 +144,14 @@ function installManagedChrome() {
   return executablePath;
 }
 
+/**
+ * Resolves a launched browser, trying (in order): an explicit
+ * PUPPETEER_EXECUTABLE_PATH override, the system's installed Chrome,
+ * and a Puppeteer-managed download. Throws if none of those produce a
+ * browser that will actually launch — for example, a downloaded
+ * Chrome binary that's missing shared libraries the build sandbox has
+ * no way to install (see the top-of-file comment).
+ */
 async function launchBrowser() {
   const baseOptions = {
     headless: true,
@@ -157,24 +178,60 @@ async function launchBrowser() {
   }
 }
 
+/**
+ * Copies the checked-in PDF into dist/ so the build still ships a
+ * (possibly slightly stale, but previously-verified-correct) resume
+ * download instead of failing outright. Only reached when no Chrome
+ * could be launched at all in this environment.
+ */
+function useCheckedInPdfFallback(reason) {
+  if (!existsSync(PUBLIC_PDF_PATH)) {
+    throw new Error(
+      `${reason}\n[resume:pdf] and there's no checked-in fallback at ` +
+        `${path.relative(ROOT, PUBLIC_PDF_PATH)} to fall back to — cannot produce a resume PDF for this build.`
+    );
+  }
+
+  console.warn(`[resume:pdf] ${reason}`);
+  console.warn(
+    "[resume:pdf] this usually means the build environment has no system package manager " +
+      "(e.g. Cloudflare Pages' build image) and can't provide the shared libraries any " +
+      "downloaded Chrome build needs. Falling back to the PDF already checked into " +
+      `${path.relative(ROOT, PUBLIC_PDF_PATH)}. Regenerate and commit it from your machine or ` +
+      "GitHub Actions (both of which have a working Chrome) after any resume content changes."
+  );
+
+  mkdirSync(path.dirname(DIST_PDF_PATH), { recursive: true });
+  copyFileSync(PUBLIC_PDF_PATH, DIST_PDF_PATH);
+  console.log(`[resume:pdf] copied ${path.relative(ROOT, PUBLIC_PDF_PATH)} -> ${path.relative(ROOT, DIST_PDF_PATH)}`);
+}
+
 async function main() {
   ensureDistBuilt();
 
-  const server = await serveDist();
-  const { port } = server.address();
-  const url = `http://127.0.0.1:${port}/`;
+  let browser;
+  try {
+    browser = await launchBrowser();
+  } catch (err) {
+    useCheckedInPdfFallback(
+      `could not launch any headless Chrome in this environment: ${err instanceof Error ? err.message : String(err)}`
+    );
+    return;
+  }
 
-  const browser = await launchBrowser();
+  const server = await serveDist();
 
   try {
+    const { port } = server.address();
+    const url = `http://127.0.0.1:${port}/`;
+
     const page = await browser.newPage();
     await page.emulateMediaFeatures([{ name: "prefers-color-scheme", value: "light" }]);
     await page.emulateMediaType("print");
     await page.goto(url, { waitUntil: "networkidle0" });
 
-    const distPdfPath = path.join(DIST, "assets", "aylward-nickolas-resume.pdf");
     await page.pdf({
-      path: distPdfPath,
+      path: DIST_PDF_PATH,
       preferCSSPageSize: true,
       printBackground: true,
     });
@@ -182,10 +239,9 @@ async function main() {
     // Keep the checked-in copy in public/ up to date too, so it stays
     // correct for anyone browsing the repo directly, and so a plain
     // `astro build` (without this script) still ships the latest file.
-    const publicPdfPath = path.join(ROOT, "public", "assets", "aylward-nickolas-resume.pdf");
-    copyFileSync(distPdfPath, publicPdfPath);
+    copyFileSync(DIST_PDF_PATH, PUBLIC_PDF_PATH);
 
-    console.log(`[resume:pdf] wrote ${path.relative(ROOT, distPdfPath)} and ${path.relative(ROOT, publicPdfPath)}`);
+    console.log(`[resume:pdf] wrote ${path.relative(ROOT, DIST_PDF_PATH)} and ${path.relative(ROOT, PUBLIC_PDF_PATH)}`);
   } finally {
     await browser.close();
     server.close();
