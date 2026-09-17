@@ -7,9 +7,9 @@
 html[data-theme="light"] {
   --background: #e2e4e6;
   --foreground: #282728;
-  --accent: #4a90b8;
+  --accent: #3d7fa3;
   --muted: #ddeaf2;
-  --border: #ccdde8;
+  --border: #9cbccd;
 }
 
 html[data-theme="dark"] {
@@ -40,9 +40,14 @@ html[data-theme="dark"] {
     @apply overflow-y-scroll scroll-smooth;
   }
   body {
-    @apply flex min-h-svh flex-col bg-background font-app text-foreground selection:bg-accent/75 selection:text-background text-[17px] sm:text-lg;
+    @apply flex min-h-svh flex-col bg-background font-app text-[17px] text-foreground selection:bg-accent/75 selection:text-background sm:text-lg;
   }
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-google-sans-code, monospace);
   }
   a,

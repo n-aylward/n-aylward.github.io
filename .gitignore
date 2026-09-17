@@ -36,7 +36,7 @@ _site/
 .bundle/
 vendor/
 # Vale style packages (fetched via `vale sync`)
-styles/
+/styles/
 
 # Wrangler (Cloudflare Pages/Workers) local cache
 .wrangler/
