@@ -1,6 +1,8 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 import Socials from "./Socials.astro";
+import IconFileTypeDocx from "@/assets/icons/IconFileTypeDocx.svg";
+import { RESUME } from "@/data/resume";
 
 const currentYear = new Date().getFullYear();
 
@@ -28,10 +30,19 @@ const { noMarginTop = false, class: className, ...attrs } = Astro.props;
     ]}
   >
     <Socials />
-    <div class="my-2 flex flex-col items-center whitespace-nowrap sm:flex-row">
+    <div class="my-2 flex flex-col items-center gap-2 whitespace-nowrap sm:flex-row">
       <span>Copyright &#169; {currentYear}</span>
       <span class="hidden sm:inline">&nbsp;|&nbsp;</span>
       <span>All rights reserved.</span>
+      <a
+        href={RESUME.downloads.docx}
+        download
+        title="Download as .docx"
+        class="group inline-flex items-center opacity-40 transition hover:text-accent hover:opacity-100 sm:ms-2"
+      >
+        <IconFileTypeDocx class="size-4 stroke-1" />
+        <span class="sr-only">Download as .docx</span>
+      </a>
     </div>
   </div>
 </footer>
