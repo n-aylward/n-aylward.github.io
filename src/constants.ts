@@ -3,6 +3,7 @@ import IconMail from "@/assets/icons/IconMail.svg";
 import IconGitHub from "@/assets/icons/IconGitHub.svg";
 import IconLinkedin from "@/assets/icons/IconLinkedin.svg";
 import { SITE } from "@/config";
+import { CONTACTS } from "@/data/contacts";
 
 interface Social {
   name: string;
@@ -11,23 +12,24 @@ interface Social {
   icon: (_props: Props) => Element;
 }
 
-export const SOCIALS: Social[] = [
-  {
-    name: "GitHub",
-    href: "https://github.com/n-aylward",
-    linkTitle: `${SITE.title} on GitHub`,
-    icon: IconGitHub,
-  },
-  {
-    name: "LinkedIn",
-    href: "https://www.linkedin.com/in/nick-a-b2666b57",
-    linkTitle: `${SITE.title} on LinkedIn`,
-    icon: IconLinkedin,
-  },
-  {
-    name: "Mail",
-    href: "mailto:nickolas.aylward@protonmail.com",
-    linkTitle: `Send an email to ${SITE.title}`,
-    icon: IconMail,
-  },
-] as const;
+const ICONS: Record<
+  (typeof CONTACTS)[number]["name"],
+  (_props: Props) => Element
+> = {
+  GitHub: IconGitHub,
+  LinkedIn: IconLinkedin,
+  Mail: IconMail,
+};
+
+const LINK_TITLES: Record<(typeof CONTACTS)[number]["name"], string> = {
+  GitHub: `${SITE.title} on GitHub`,
+  LinkedIn: `${SITE.title} on LinkedIn`,
+  Mail: `Send an email to ${SITE.title}`,
+};
+
+export const SOCIALS: Social[] = CONTACTS.map(contact => ({
+  name: contact.name,
+  href: contact.href,
+  linkTitle: LINK_TITLES[contact.name],
+  icon: ICONS[contact.name],
+}));

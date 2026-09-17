@@ -1,0 +1,32 @@
+/*
+ * Print styles used both when a visitor prints the page from their
+ * browser, and by scripts/generate-resume-pdf.mjs (which renders this
+ * same page headlessly with `@media print` active) to produce the
+ * downloadable PDF. Keeping this in the normal site stylesheet means
+ * the PDF is always a faithful, in-sync snapshot of the live page.
+ */
+@media print {
+  @page {
+    size: Letter;
+    margin: 0.55in 0.65in;
+  }
+
+  :root,
+  html[data-theme="light"],
+  html[data-theme="dark"] {
+    --background: #ffffff !important;
+    --foreground: #1a1a1a !important;
+    --accent: #2c5f7c !important;
+    --muted: #f2f5f7 !important;
+    --border: #c7d3da !important;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+  }
+
+  .app-layout {
+    max-width: none !important;
+  }
+}

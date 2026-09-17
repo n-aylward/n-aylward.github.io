@@ -5,7 +5,9 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build && pagefind --site dist && cp -r dist/pagefind public/",
+    "resume:docx": "tsx scripts/generate-resume-docx.mjs",
+    "resume:pdf": "tsx scripts/generate-resume-pdf.mjs",
+    "build": "npm run resume:docx && astro check && astro build && npm run resume:pdf && pagefind --site dist && cp -r dist/pagefind public/",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",
@@ -30,6 +32,7 @@
     "@astrojs/check": "^0.9.10",
     "@shikijs/transformers": "^4.4.3",
     "@tailwindcss/typography": "^0.5.19",
+    "docx": "^9.5.1",
     "eslint": "^10.10.0",
     "eslint-plugin-astro": "^3.2.1",
     "globals": "^17.12.0",
@@ -37,6 +40,8 @@
     "prettier": "^3.7.4",
     "prettier-plugin-astro": "^1.0.1",
     "prettier-plugin-tailwindcss": "^0.8.1",
+    "puppeteer": "^24.15.0",
+    "tsx": "^4.19.2",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.51.0",
     "wrangler": "^4.133.0"

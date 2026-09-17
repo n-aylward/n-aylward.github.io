@@ -14,5 +14,10 @@ export default [
     },
   },
   { rules: { "no-console": "error" } },
+  {
+    // Node build scripts legitimately print progress to stdout.
+    files: ["scripts/**/*.mjs"],
+    rules: { "no-console": "off" },
+  },
   { ignores: ["dist/**", ".astro", "public/pagefind/**"] },
 ];
