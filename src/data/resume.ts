@@ -100,7 +100,7 @@ export const RESUME = {
       roles: [
         {
           title: "Principal Technical Writer",
-          dateRange: "September 2024 – Present",
+          dateRange: "September 2024 – September 2026",
           bullets: [
             "Built DataRobot's initial Agentic AI documentation, including agent development guides, tracing/evaluation/moderation infrastructure, and template walkthroughs.",
             "Maintained DataRobot's NVIDIA AI Enterprise integration documentation, covering NIM container deployment from the NVIDIA GPU Cloud (NGC) gallery, embedding models for vector databases, and NeMo Guardrails moderation, and partially automated upkeep of the NIM reference tables.",
