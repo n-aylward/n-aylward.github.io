@@ -48,23 +48,24 @@ import Footer from "@/components/Footer.astro";
           <h3 class="mb-3 font-semibold text-foreground">Proficiency</h3>
           <div class="flex flex-wrap gap-2">
             {[
-              "Claude Code",
-              "Claude Desktop",
-              "Cursor",
-              "Astro",
-              "GitHub Actions",
-              "Cloudflare Pages",
-              "Wrangler",
+              "macOS",
+              "Windows",
+              "Ubuntu",
+              "Git",
+              "SVN",
+              "Make",
+              "HTML",
+              "CSS",
+              "Markdown",
+              "Bootstrap",
               "Vale",
               "MkDocs",
               "Material for MkDocs",
-              "Git",
-              "SVN",
-              "HTML",
-              "CSS",
-              "Bootstrap",
-              "Jira",
-              "Confluence",
+              "Astro",
+              "GitHub",
+              "GitHub Actions",
+              "Cloudflare Pages",
+              "Atlassian Tools",
               "Microsoft Office",
               "Freshdesk",
               "MadCap Flare",
@@ -72,8 +73,6 @@ import Footer from "@/components/Footer.astro";
               "Pendo",
               "Snagit",
               "Camtasia",
-              "macOS",
-              "Windows",
             ].map(skill => (
               <span class="rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-sm text-foreground">
                 {skill}
@@ -85,25 +84,28 @@ import Footer from "@/components/Footer.astro";
           <h3 class="mb-3 font-semibold text-foreground">Familiarity</h3>
           <div class="flex flex-wrap gap-2">
             {[
-              "Antigravity",
               "Python",
-              "Harness",
-              "GitHub",
-              "VS Code",
-              "Postman",
-              "Bitbucket",
               "JavaScript",
               "Jinja",
               "Liquid",
               "LaTeX",
+              "Harness",
+              "Mintlify",
+              "VS Code",
+              "Claude Code",
+              "Claude Desktop",
+              "Cursor",
+              "Antigravity",
+              "Postman",
+              "Bitbucket",
               "DataTables",
               "Google Search Console",
+              "Figma",
               "InDesign",
               "Photoshop",
               "Lightroom",
               "Dreamweaver",
               "InVision",
-              "Ubuntu",
             ].map(skill => (
               <span class="rounded-full border border-border bg-muted/50 px-3 py-1 text-sm text-foreground">
                 {skill}
@@ -147,32 +149,39 @@ import Footer from "@/components/Footer.astro";
                   <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
                   Built DataRobot's initial Agentic AI documentation, including
                   agent development guides, tracing/evaluation/moderation
-                  infrastructure, and template walkthroughs (including an
-                  NVIDIA-specific track).
+                  infrastructure, and template walkthroughs.
                 </li>
                 <li class="flex gap-2">
                   <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
-                  Authored DataRobot's public-facing Workload API documentation
+                  Maintained DataRobot's NVIDIA AI Enterprise integration
+                  documentation, covering NIM container deployment from the
+                  NVIDIA GPU Cloud (NGC) gallery, embedding models for vector
+                  databases, and NeMo Guardrails moderation, and partially
+                  automated upkeep of the NIM reference tables.
+                </li>
+                <li class="flex gap-2">
+                  <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
+                  Produced DataRobot's public-facing Workload API documentation
                   (tutorial, CLI reference, and install guide), translating
                   internal engineering documentation into user-facing content.
                 </li>
                 <li class="flex gap-2">
                   <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
-                  Maintain the docs site's Harness/MkDocs CI pipeline, shipping
-                  fixes for redirect handling (including .ipynb files and edge
-                  cases), heading-hierarchy checks, prose linting, and
+                  Maintained the docs site's Harness/MkDocs CI pipeline,
+                  shipping fixes for redirect handling (including .ipynb files
+                  and edge cases), heading-hierarchy checks, prose linting, and
                   link-checker exclusions.
                 </li>
                 <li class="flex gap-2">
                   <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
-                  Extended DataRobot's machine-readable documentation exports
-                  (llm.txt, docs-llm.zip, and sidecar markdown pages alongside
-                  each doc) and fixed markdown-link handling for LLM and agent
-                  consumers of the doc site.
+                  Extended DataRobot's machine-readable documentation exports,
+                  including a markdown sidecar file for every doc page, and
+                  fixed markdown-link handling for LLM and agentic consumers of
+                  the doc site.
                 </li>
                 <li class="flex gap-2">
                   <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"></span>
-                  Built and used a Python/Pillow-based image pipeline to resize,
+                  Implemented a Python/Pillow-based image pipeline to resize,
                   optimize, and recolor callout graphics across the docs site.
                 </li>
                 <li class="flex gap-2">
