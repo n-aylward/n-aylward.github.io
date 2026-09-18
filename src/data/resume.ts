@@ -121,7 +121,7 @@ export const RESUME = {
           dateRange: "February 2023 – September 2024",
           bullets: [
             "Documented the redesigned NextGen UI end-to-end across MLOps surfaces as part of DataRobot's platform-wide migration from its Classic UI.",
-            "Led early documentation for DataRobot's Generative AI and LLM capabilities, including LLM Evaluation, Prompt Monitoring, Generative AI performance tracking, and the LLM Playground.",
+            "Contributed to early documentation for DataRobot's Generative AI and LLM capabilities, including LLM Evaluation, Prompt Monitoring, Generative AI performance tracking, and the LLM Playground.",
             "Managed backports and cherry-picks of documentation fixes to release branches for DataRobot's enterprise/on-premise releases.",
             "Added new documentation-site UI elements, including badges, admonition styling, and banners, and fixed responsive-navigation and search-UI issues.",
           ],
