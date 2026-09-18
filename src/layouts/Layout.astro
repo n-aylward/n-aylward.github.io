@@ -14,7 +14,6 @@ type Props = {
   canonicalURL?: string;
   pubDatetime?: Date;
   modDatetime?: Date | null;
-  scrollSmooth?: boolean;
 };
 
 const {
@@ -26,17 +25,21 @@ const {
   canonicalURL = new URL(Astro.url.pathname, Astro.url),
   pubDatetime,
   modDatetime,
-  scrollSmooth = false,
 } = Astro.props;
 
 const socialImageURL = new URL(ogImage, Astro.url);
 
+// Only real blog posts (which pass pubDatetime) get typed as
+// BlogPosting with publish/modified dates; the resume homepage and
+// other static pages describe a person's page instead, and omit the
+// blog-only date fields rather than emitting a meaningless
+// "datePublished": "undefined".
 const structuredData = {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": pubDatetime ? "BlogPosting" : "ProfilePage",
   headline: `${title}`,
   image: `${socialImageURL}`,
-  datePublished: `${pubDatetime?.toISOString()}`,
+  ...(pubDatetime && { datePublished: pubDatetime.toISOString() }),
   ...(modDatetime && { dateModified: modDatetime.toISOString() }),
   author: [
     {
@@ -49,11 +52,7 @@ const structuredData = {
 ---
 
 <!doctype html>
-<html
-  dir={SITE.dir}
-  lang=`${SITE.lang ?? "en"}`
-  class={`${scrollSmooth && "scroll-smooth"}`}
->
+<html dir={SITE.dir} lang=`${SITE.lang ?? "en"}`>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
