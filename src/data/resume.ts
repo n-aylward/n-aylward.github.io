@@ -138,7 +138,7 @@ export const RESUME = {
       ],
     },
     {
-      company: "Onapsis Inc. / Product Team",
+      company: "Onapsis, Inc. / Product Team",
       dateRange: "January 2021 – November 2021",
       roles: [
         {
