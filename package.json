@@ -22,16 +22,12 @@
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^7.3.3",
-    "remark-collapse": "^0.1.2",
-    "remark-toc": "^9.0.0",
     "satori": "^0.33.4",
     "sharp": "^0.35.4",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "@shikijs/transformers": "^4.4.3",
-    "@tailwindcss/typography": "^0.5.19",
     "docx": "^9.5.1",
     "eslint": "^10.10.0",
     "eslint-plugin-astro": "^3.2.1",
