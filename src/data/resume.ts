@@ -84,6 +84,7 @@ export const RESUME = {
       "Bitbucket",
       "DataTables",
       "Google Search Console",
+      "Google Analytics",
       "Figma",
       "InDesign",
       "Photoshop",
