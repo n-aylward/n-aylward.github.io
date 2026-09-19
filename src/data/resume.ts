@@ -131,7 +131,7 @@ export const RESUME = {
           dateRange: "January 2022 – February 2023",
           bullets: [
             "Provided documentation and sign-off for feature releases across DataRobot's MLOps platform, including predictions, model monitoring and management, custom models, and external models.",
-            "Led a two-part refactor of the Custom Model documentation and consolidated the MLOps information architecture to reduce redundant content.",
+            "Led a two-part refactor of the custom model documentation and consolidated the MLOps information architecture to reduce redundant content.",
             "Fixed local doc-portal build failures and a Poetry-related CI build breakage.",
           ],
         },
