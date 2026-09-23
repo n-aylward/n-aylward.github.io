@@ -23,9 +23,11 @@
   html[data-theme="dark"] {
     --background: #ffffff !important;
     --foreground: #1a1a1a !important;
-    --accent: #2c5f7c !important;
-    --muted: #f2f5f7 !important;
-    --border: #c7d3da !important;
+    /* Darker, more saturated version of the light-theme orange
+       (global.css), for legibility against white paper. */
+    --accent: #8a4f1f !important;
+    --muted: #f4ecdf !important;
+    --border: #d8c4a8 !important;
   }
 
   html,

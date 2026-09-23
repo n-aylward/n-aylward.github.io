@@ -7,15 +7,25 @@
 html[data-theme="light"] {
   --background: #f0ece3;
   --foreground: #282728;
-  --accent: #3d7fa3;
-  --muted: #ddeaf2;
-  --border: #9cbccd;
+  /* Warm sunny orange. The complement (~180° hue) of the night-blue
+     dark-theme accent below, which itself sits in the same pale-blue
+     family as the favicon mark — so the mark and dark theme share an
+     origin, and the light theme is its complement. */
+  --accent: #c87838;
+  /* Color of the "switch to" icon on hover — always the *other*
+     theme's accent, so the moon (light) hints at the night-blue
+     dark theme and the sun (dark) hints at the warm light theme. */
+  --accent-other: #7ac2e0;
+  --muted: #f0e0cc;
+  --border: #c8a880;
 }
 
 html[data-theme="dark"] {
   --background: #1b2333;
   --foreground: #ddeaf2;
+  /* Night sky blue, in the same pale-blue family as the favicon. */
   --accent: #7ac2e0;
+  --accent-other: #c87838;
   --muted: #253348;
   --border: #2e4560;
 }
