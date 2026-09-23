@@ -35,6 +35,8 @@ The PDF is a headless-Chrome print of the built webpage, so it can't drift from 
 
 Pushes to `main` run `.github/workflows/deploy.yml`, which builds and publishes to GitHub Pages.
 
+PRs run `.github/workflows/test.yml`, which also deploys a temporary preview to Cloudflare Pages and runs pa11y (WCAG 2 AA) and linkinator against it. Requires the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repo secrets.
+
 ## Project structure
 
 ```
