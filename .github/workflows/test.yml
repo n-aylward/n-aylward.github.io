@@ -32,3 +32,30 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm run build
       - run: npx tsx scripts/validate-resume-data.mjs
+
+      # PR-only: deploy to Cloudflare Pages preview, then run a11y
+      # and link checks against the live preview URL. Requires
+      # CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID secrets.
+      - name: Install Chrome for pa11y
+        if: github.event_name == 'pull_request'
+        run: npx puppeteer browsers install chrome
+      - name: Deploy preview to Cloudflare Pages
+        if: github.event_name == 'pull_request'
+        id: preview
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >-
+            pages deploy dist
+            --project-name=n-aylward-resume
+            --branch=${{ github.head_ref }}
+          wranglerVersion: "4"
+      - name: pa11y (homepage + 404)
+        if: github.event_name == 'pull_request'
+        run: |
+          npx pa11y "${{ steps.preview.outputs.deployment-url }}/"
+          npx pa11y "${{ steps.preview.outputs.deployment-url }}/some-missing-page"
+      - name: linkinator (internal links)
+        if: github.event_name == 'pull_request'
+        run: npx linkinator "${{ steps.preview.outputs.deployment-url }}/" --recurse

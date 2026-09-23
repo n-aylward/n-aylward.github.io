@@ -1,6 +1,5 @@
 ---
 import { Font } from "astro:assets";
-import { ClientRouter } from "astro:transitions";
 import { PUBLIC_GOOGLE_SITE_VERIFICATION } from "astro:env/client";
 import { SITE } from "@/config";
 import "@/styles/global.css";
@@ -28,31 +27,42 @@ const {
 } = Astro.props;
 
 const socialImageURL = new URL(ogImage, Astro.url);
+const ogImageAlt = `${author} — ${title}`;
 
-// Only real blog posts (which pass pubDatetime) get typed as
-// BlogPosting with publish/modified dates; the resume homepage and
-// other static pages describe a person's page instead, and omit the
-// blog-only date fields rather than emitting a meaningless
-// "datePublished": "undefined".
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": pubDatetime ? "BlogPosting" : "ProfilePage",
-  headline: `${title}`,
-  image: `${socialImageURL}`,
-  ...(pubDatetime && { datePublished: pubDatetime.toISOString() }),
-  ...(modDatetime && { dateModified: modDatetime.toISOString() }),
-  author: [
-    {
+// Don't emit a structured-data block on the 404 page — emitting a
+// Person or ProfilePage for a not-found URL misleads crawlers.
+const is404 = Astro.response.status === 404;
+
+// Real blog posts get BlogPosting; the resume and other static pages
+// describe the person directly.
+const structuredData = pubDatetime
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: `${title}`,
+      description: `${description}`,
+      image: `${socialImageURL}`,
+      datePublished: pubDatetime.toISOString(),
+      ...(modDatetime && { dateModified: modDatetime.toISOString() }),
+      author: {
+        "@type": "Person",
+        name: `${author}`,
+        ...(profile && { url: profile }),
+      },
+    }
+  : {
+      "@context": "https://schema.org",
       "@type": "Person",
       name: `${author}`,
+      jobTitle: `${title}`,
+      description: `${description}`,
+      image: `${socialImageURL}`,
       ...(profile && { url: profile }),
-    },
-  ],
-};
+    };
 ---
 
 <!doctype html>
-<html dir={SITE.dir} lang=`${SITE.lang ?? "en"}`>
+<html dir={SITE.dir} lang={SITE.lang ?? "en"}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -62,27 +72,44 @@ const structuredData = {
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Async-load Spectral so the request doesn't block first paint. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
       rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+      />
+    </noscript>
     <Font
       cssVariable="--font-google-sans-code"
-      preload={[{ subset: "latin", weight: 400, style: "normal" }]}
+      preload={[
+        { subset: "latin", weight: 400, style: "normal" },
+        { subset: "latin", weight: 700, style: "normal" },
+      ]}
     />
 
     <!-- General Meta Tags -->
     <title>{title}</title>
-    <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="author" content={author} />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={author} />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={socialImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
 
     <!-- Article Published/Modified time -->
     {pubDatetime && (
@@ -104,14 +131,28 @@ const structuredData = {
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={socialImageURL} />
+    <meta property="twitter:image:alt" content={ogImageAlt} />
 
-    <!-- Google JSON-LD Structured data -->
-    <script
-      type="application/ld+json"
-      is:inline
-      set:html={JSON.stringify(structuredData)}
-    ></script>
-    <meta name="theme-color" content="#4a90b8" />
+    <!-- JSON-LD structured data -->
+    {!is404 && (
+      <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(structuredData)}
+      ></script>
+    )}
+    <!-- theme-color mirrors --background so the browser chrome
+         matches before theme.ts takes over. -->
+    <meta
+      name="theme-color"
+      content="#f0ece3"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#1b2333"
+      media="(prefers-color-scheme: dark)"
+    />
 
     {
       // If PUBLIC_GOOGLE_SITE_VERIFICATION is set in the environment variable,
@@ -125,35 +166,16 @@ const structuredData = {
       )
     }
 
-    <ClientRouter />
-
     <!-- Minimal inline script to prevent FOUC - sets theme immediately -->
     <script is:inline>
       (function () {
-        const initialColorScheme = ""; // "light" | "dark"
-        const currentTheme = localStorage.getItem("theme");
-
-        function getPreferTheme() {
-          if (currentTheme) return currentTheme;
-          if (initialColorScheme) return initialColorScheme;
-          return window.matchMedia("(prefers-color-scheme: dark)").matches
+        const stored = localStorage.getItem("theme");
+        const themeValue =
+          stored ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
             ? "dark"
-            : "light";
-        }
-
-        const themeValue = getPreferTheme();
-
-        // Set theme immediately to prevent flash
-        document.firstElementChild?.setAttribute("data-theme", themeValue);
-
-        // Export minimal API for external script
-        window.theme = {
-          themeValue: themeValue,
-          getTheme: () => window.theme.themeValue,
-          setTheme: val => {
-            window.theme.themeValue = val;
-          },
-        };
+            : "light");
+        document.firstElementChild.setAttribute("data-theme", themeValue);
       })();
     </script>
   </head>
