@@ -6,6 +6,12 @@ type Props = HTMLAttributes<"a">;
 const { class: className, ...attrs } = Astro.props;
 ---
 
-<a class:list={["group inline-flex items-center gap-1 hover:text-accent", className]} {...attrs}>
+<a
+  class:list={[
+    "group inline-flex items-center gap-1 hover:text-accent",
+    className,
+  ]}
+  {...attrs}
+>
   <slot />
 </a>
