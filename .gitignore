@@ -7,7 +7,6 @@ yarn-debug.log
 # Build output
 dist/
 .astro/
-public/pagefind/
 
 # Python Virtual Environments
 .venv/
@@ -28,6 +27,7 @@ __pycache__/
 *.sln
 *.sw?
 .DS_Store
+opencode.json
 
 # Legacy Jekyll
 _site/
@@ -35,3 +35,8 @@ _site/
 .sass-cache/
 .bundle/
 vendor/
+# Vale style packages (fetched via `vale sync`)
+/styles/
+
+# Wrangler (Cloudflare Pages/Workers) local cache
+.wrangler/
