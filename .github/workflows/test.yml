@@ -42,18 +42,20 @@ jobs:
       - name: Deploy preview to Cloudflare Pages
         if: github.event_name == 'pull_request'
         id: preview
-        uses: cloudflare/pages-action@v1
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: n-aylward-resume
-          directory: dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          command: >-
+            pages deploy dist
+            --project-name=n-aylward-resume
+            --branch=${{ github.head_ref }}
+          wranglerVersion: "4"
       - name: pa11y (homepage + 404)
         if: github.event_name == 'pull_request'
         run: |
-          npx pa11y "${{ steps.preview.outputs.url }}/"
-          npx pa11y "${{ steps.preview.outputs.url }}/some-missing-page"
+          npx pa11y "${{ steps.preview.outputs.deployment-url }}/"
+          npx pa11y "${{ steps.preview.outputs.deployment-url }}/some-missing-page"
       - name: linkinator (internal links)
         if: github.event_name == 'pull_request'
-        run: npx linkinator "${{ steps.preview.outputs.url }}/" --recurse
+        run: npx linkinator "${{ steps.preview.outputs.deployment-url }}/" --recurse
