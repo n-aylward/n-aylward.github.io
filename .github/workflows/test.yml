@@ -51,7 +51,7 @@ jobs:
             --project-name=n-aylward-github-io
             --branch=${{ github.head_ref }}
           preCommands: >-
-            pages project create n-aylward-github-io
+            wrangler pages project create n-aylward-github-io
             --production-branch=main || true
           wranglerVersion: "4"
       - name: pa11y (homepage + 404)
