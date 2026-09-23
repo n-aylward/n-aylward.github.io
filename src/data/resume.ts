@@ -30,7 +30,7 @@ export interface ResumeEducation {
 }
 
 export const RESUME = {
-  name: "Nick Aylward",
+  name: "Nick Aylward (TEST BRANCH)",
   title: "Technical Writer",
 
   /** Public download paths, generated automatically on every build. */
