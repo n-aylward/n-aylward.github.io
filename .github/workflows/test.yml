@@ -1,0 +1,73 @@
+name: Validate and preview
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  validate-and-preview:
+    name: Validate and preview
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+          cache: npm
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm run lint
+      - name: Run Vale
+        uses: errata-ai/vale-action@v2
+        with:
+          files: src
+          reporter: github-pr-check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run build
+      - run: npx tsx scripts/validate-resume-data.mjs
+
+      # Deploy a preview for pull requests and check its accessibility and links.
+      # This step needs CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID. GitHub
+      # does not provide repository secrets to pull requests from forks.
+      - name: Install Chrome for pa11y
+        if: github.event_name == 'pull_request'
+        run: npx puppeteer browsers install chrome
+      - name: Deploy preview to Cloudflare Pages
+        if: github.event_name == 'pull_request'
+        id: preview
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >-
+            pages deploy dist
+            --project-name=n-aylward-github-io
+            --branch=${{ github.head_ref }}
+          preCommands: >-
+            wrangler pages project create n-aylward-github-io
+            --production-branch=main || true
+          wranglerVersion: "4"
+      - name: pa11y (homepage + 404)
+        if: github.event_name == 'pull_request'
+        run: |
+          npx pa11y "${{ steps.preview.outputs.deployment-url }}/"
+          npx pa11y "${{ steps.preview.outputs.deployment-url }}/some-missing-page"
+      - name: linkinator (internal links)
+        if: github.event_name == 'pull_request'
+        run: npx linkinator "${{ steps.preview.outputs.deployment-url }}/" --recurse
+
+      - name: Comment preview URL
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v5
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Preview: ${{ steps.preview.outputs.deployment-url }}

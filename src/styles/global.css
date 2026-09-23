@@ -1,0 +1,91 @@
+@import "tailwindcss";
+@import "./print.css";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+:root,
+html[data-theme="light"] {
+  --background: #f0ece3;
+  --foreground: #282728;
+  /* This accent has about 4.6:1 contrast against the light background,
+     above WCAG AA's 4.5:1 minimum for normal text. */
+  --accent: #9c5a26;
+  /* Use the other theme's accent when the theme icon is hovered. */
+  --accent-other: #7ac2e0;
+  --muted: #f0e0cc;
+  --border: #c8a880;
+}
+
+html[data-theme="dark"] {
+  --background: #1b2333;
+  --foreground: #ddeaf2;
+  /* Match the dark-theme accent to the favicon's blue. */
+  --accent: #7ac2e0;
+  --accent-other: #c87838;
+  --muted: #253348;
+  --border: #2e4560;
+}
+
+@theme inline {
+  --font-app: "Spectral", serif;
+  --font-mono: var(--font-google-sans-code, monospace);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-accent/75;
+    scrollbar-width: auto;
+    scrollbar-color: var(--color-muted) transparent;
+  }
+  html {
+    @apply overflow-y-scroll;
+  }
+  body {
+    @apply flex min-h-svh flex-col bg-background font-app text-[17px] text-foreground selection:bg-foreground selection:text-background sm:text-lg;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-google-sans-code, monospace);
+  }
+  a,
+  button {
+    @apply outline-offset-1 outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@utility max-w-app {
+  @apply max-w-4xl;
+}
+
+@utility app-layout {
+  @apply mx-auto w-full max-w-app px-4;
+}
+
+.active-nav {
+  @apply underline decoration-wavy decoration-2 underline-offset-8;
+}
+
+/* Add space above an anchored element so it is not flush with the viewport. */
+:target {
+  scroll-margin-block: 1rem;
+}
+
+/* Use smooth scrolling only when the user has not requested reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

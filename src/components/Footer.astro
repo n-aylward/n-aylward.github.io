@@ -1,0 +1,47 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import Socials from "./Socials.astro";
+import IconFileTypeDocx from "@/assets/icons/IconFileTypeDocx.svg";
+import { RESUME } from "@/data/resume";
+
+const currentYear = new Date().getFullYear();
+
+type Props = {
+  noMarginTop?: boolean;
+} & HTMLAttributes<"footer">;
+
+const { noMarginTop = false, class: className, ...attrs } = Astro.props;
+---
+
+<footer
+  class:list={[
+    "app-layout",
+    "print:hidden",
+    { "mt-auto": !noMarginTop },
+    className,
+  ]}
+  {...attrs}
+>
+  <div
+    class:list={[
+      "py-6 sm:py-4",
+      "border-t border-border",
+      "flex flex-col items-center justify-between sm:flex-row-reverse",
+    ]}
+  >
+    <Socials />
+    <div class="my-2 flex flex-col items-center gap-2 whitespace-nowrap sm:flex-row">
+      <span>Copyright &#169; {currentYear}</span>
+      <span class="hidden sm:inline">&nbsp;|&nbsp;</span>
+      <span>All rights reserved.</span>
+      <a
+        href={RESUME.downloads.docx}
+        download
+        class="group inline-flex items-center opacity-40 motion-safe:transition hover:text-accent hover:opacity-100 sm:ms-2"
+      >
+        <IconFileTypeDocx aria-hidden="true" class="size-4 stroke-1" />
+        <span class="sr-only">Download as .docx</span>
+      </a>
+    </div>
+  </div>
+</footer>

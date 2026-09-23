@@ -1,0 +1,36 @@
+/*
+ * These rules format the page for printing. The PDF generator uses the
+ * same page and print rules, so its content matches the website.
+ */
+@media print {
+  @page {
+    size: Letter;
+    margin: 0.35in 0.55in;
+  }
+
+  html,
+  body {
+    /* Use compact line spacing for the printed resume. */
+    line-height: 1.3 !important;
+  }
+
+  :root,
+  html[data-theme="light"],
+  html[data-theme="dark"] {
+    --background: #ffffff !important;
+    --foreground: #1a1a1a !important;
+    /* Use a darker orange so the accent stays readable on white paper. */
+    --accent: #8a4f1f !important;
+    --muted: #f4ecdf !important;
+    --border: #d8c4a8 !important;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+  }
+
+  .app-layout {
+    max-width: none !important;
+  }
+}
