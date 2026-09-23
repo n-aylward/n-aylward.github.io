@@ -48,8 +48,11 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: >-
             pages deploy dist
-            --project-name=n-aylward-resume
+            --project-name=n-aylward-github-io
             --branch=${{ github.head_ref }}
+          preCommands: >-
+            pages project create n-aylward-github-io
+            --production-branch=main || true
           wranglerVersion: "4"
       - name: pa11y (homepage + 404)
         if: github.event_name == 'pull_request'
