@@ -37,10 +37,9 @@ const { noMarginTop = false, class: className, ...attrs } = Astro.props;
       <a
         href={RESUME.downloads.docx}
         download
-        title="Download as .docx"
-        class="group inline-flex items-center opacity-40 transition hover:text-accent hover:opacity-100 sm:ms-2"
+        class="group inline-flex items-center opacity-40 motion-safe:transition hover:text-accent hover:opacity-100 sm:ms-2"
       >
-        <IconFileTypeDocx class="size-4 stroke-1" />
+        <IconFileTypeDocx aria-hidden="true" class="size-4 stroke-1" />
         <span class="sr-only">Download as .docx</span>
       </a>
     </div>

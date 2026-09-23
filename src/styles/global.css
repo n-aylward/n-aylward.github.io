@@ -7,11 +7,12 @@
 html[data-theme="light"] {
   --background: #f0ece3;
   --foreground: #282728;
-  /* Warm sunny orange. The complement (~180° hue) of the night-blue
-     dark-theme accent below, which itself sits in the same pale-blue
-     family as the favicon mark — so the mark and dark theme share an
-     origin, and the light theme is its complement. */
-  --accent: #c87838;
+  /* Warm sunny orange, darkened from #c87838 so text on the cream
+     background clears WCAG AA (~4.6:1). The complement (~180° hue)
+     of the night-blue dark-theme accent below, which itself sits in
+     the same pale-blue family as the favicon mark — so the mark and
+     dark theme share an origin, and the light theme is its complement. */
+  --accent: #9c5a26;
   /* Color of the "switch to" icon on hover — always the *other*
      theme's accent, so the moon (light) hints at the night-blue
      dark theme and the sun (dark) hints at the warm light theme. */
@@ -47,10 +48,10 @@ html[data-theme="dark"] {
     scrollbar-color: var(--color-muted) transparent;
   }
   html {
-    @apply overflow-y-scroll scroll-smooth;
+    @apply overflow-y-scroll;
   }
   body {
-    @apply flex min-h-svh flex-col bg-background font-app text-[17px] text-foreground selection:bg-accent/75 selection:text-background sm:text-lg;
+    @apply flex min-h-svh flex-col bg-background font-app text-[17px] text-foreground selection:bg-foreground selection:text-background sm:text-lg;
   }
   h1,
   h2,
@@ -86,4 +87,11 @@ html[data-theme="dark"] {
 /* Anything that has been anchored to should have extra scroll margin */
 :target {
   scroll-margin-block: 1rem;
+}
+
+/* Honor user's reduced-motion preference (WCAG 2.3.3). */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }

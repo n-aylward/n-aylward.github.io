@@ -45,6 +45,7 @@ const printContacts = CONTACTS.map(contact =>
               viewBox="0 0 24 24"
               stroke="currentColor"
               stroke-width="2"
+              aria-hidden="true"
             >
               <path
                 stroke-linecap="round"
@@ -110,7 +111,7 @@ const printContacts = CONTACTS.map(contact =>
               <h3 class="text-lg font-bold print:text-[10pt]">
                 {company.company}
               </h3>
-              <span class="text-sm text-foreground/60 print:text-[8pt]">
+              <span class="text-sm text-foreground/75 print:text-[8pt]">
                 {company.dateRange}
               </span>
             </div>
@@ -120,17 +121,20 @@ const printContacts = CONTACTS.map(contact =>
                 {company.roles.map(role => (
                   <div class="print:break-inside-avoid">
                     <div class="flex flex-col">
-                      <p class="text-sm font-semibold text-accent print:text-[9pt]">
+                      <h4 class="text-sm font-semibold text-accent print:text-[9pt]">
                         {role.title}
-                      </p>
-                      <span class="text-sm text-foreground/60 print:text-[8pt]">
+                      </h4>
+                      <span class="text-sm text-foreground/75 print:text-[8pt]">
                         {role.dateRange}
                       </span>
                     </div>
                     <ul class="mt-2 space-y-2 text-sm leading-relaxed print:mt-0.5 print:space-y-0 print:text-[8.5pt] print:leading-[1.28]">
                       {role.bullets.map(bullet => (
                         <li class="flex gap-2 print:gap-1">
-                          <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent print:mt-[0.5em] print:h-1 print:w-1"></span>
+                          <span
+                            aria-hidden="true"
+                            class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent print:mt-[0.5em] print:h-1 print:w-1"
+                          ></span>
                           {bullet}
                         </li>
                       ))}
@@ -140,13 +144,16 @@ const printContacts = CONTACTS.map(contact =>
               </div>
             ) : (
               <>
-                <p class="mb-3 text-sm font-semibold text-accent print:mb-1 print:text-[9pt]">
+                <h4 class="mb-3 text-sm font-semibold text-accent print:mb-1 print:text-[9pt]">
                   {company.roles[0].title}
-                </p>
+                </h4>
                 <ul class="space-y-2 text-sm leading-relaxed print:space-y-0 print:text-[8.5pt] print:leading-[1.28]">
                   {company.roles[0].bullets.map(bullet => (
                     <li class="flex gap-2 print:gap-1">
-                      <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent print:mt-[0.5em] print:h-1 print:w-1"></span>
+                      <span
+                        aria-hidden="true"
+                        class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent print:mt-[0.5em] print:h-1 print:w-1"
+                      ></span>
                       {bullet}
                     </li>
                   ))}
@@ -168,7 +175,7 @@ const printContacts = CONTACTS.map(contact =>
           <h3 class="text-lg font-bold print:text-[10pt]">
             {RESUME.education.institution}
           </h3>
-          <span class="text-sm text-foreground/60 print:text-[8pt]">
+          <span class="text-sm text-foreground/75 print:text-[8pt]">
             {RESUME.education.dateRange}
           </span>
         </div>
