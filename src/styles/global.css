@@ -7,10 +7,11 @@
 html[data-theme="light"] {
   --background: #f0ece3;
   --foreground: #282728;
-  /* This accent has about 4.6:1 contrast against the light background,
-     above WCAG AA's 4.5:1 minimum for normal text. */
+  /* This accent has about 4.6:1 contrast with the light background.
+     The Web Content Accessibility Guidelines require at least 4.5:1
+     contrast for normal text at level AA. */
   --accent: #9c5a26;
-  /* Use the other theme's accent when the theme icon is hovered. */
+  /* Hovering over the theme icon displays the other theme's accent. */
   --accent-other: #7ac2e0;
   --muted: #f0e0cc;
   --border: #c8a880;
@@ -19,7 +20,7 @@ html[data-theme="light"] {
 html[data-theme="dark"] {
   --background: #1b2333;
   --foreground: #ddeaf2;
-  /* Match the dark-theme accent to the favicon's blue. */
+  /* Match the dark-theme accent to the blue in the site icon. */
   --accent: #7ac2e0;
   --accent-other: #c87838;
   --muted: #253348;
@@ -78,12 +79,12 @@ html[data-theme="dark"] {
   @apply underline decoration-wavy decoration-2 underline-offset-8;
 }
 
-/* Add space above an anchored element so it is not flush with the viewport. */
+/* Leave space before an anchored element when the browser scrolls to it. */
 :target {
   scroll-margin-block: 1rem;
 }
 
-/* Use smooth scrolling only when the user has not requested reduced motion. */
+/* Use smooth scrolling only when the user hasn't requested reduced motion. */
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;

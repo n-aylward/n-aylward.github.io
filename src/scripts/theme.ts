@@ -9,7 +9,7 @@ function systemTheme(): string {
 }
 
 // A small script near the top of the page sets the theme before it appears.
-// Reuse that value so the theme does not change during startup.
+// Reuse that value so the theme doesn't change during startup.
 let themeValue: string =
   (document.documentElement.dataset.theme as string) || systemTheme();
 const storedTheme = localStorage.getItem(THEME);

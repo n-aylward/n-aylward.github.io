@@ -1,5 +1,5 @@
-// The website adds icons when it displays these links. The PDF and DOCX
-// scripts also use them, so this file does not depend on website components.
+// The website adds icons when it displays these links. The PDF and Word
+// document generators also use them, so this file doesn't depend on website components.
 
 export interface Contact {
   name: "GitHub" | "LinkedIn" | "Mail";

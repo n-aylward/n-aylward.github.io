@@ -1,5 +1,5 @@
-// Edit this file to update the resume content. The homepage and the PDF
-// and DOCX generators all read from this data.
+// Edit this file to update the resume content. The homepage and document
+// generators all read from this data.
 
 export interface ResumeRole {
   title: string;

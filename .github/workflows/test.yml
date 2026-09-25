@@ -27,7 +27,7 @@ jobs:
       - name: Run Vale
         uses: errata-ai/vale-action@v2
         with:
-          files: src
+          files: '["README.md", "src", "scripts", "astro.config.ts", "eslint.config.js", ".prettierrc.mjs"]'
           reporter: github-pr-check
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

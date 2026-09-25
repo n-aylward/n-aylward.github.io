@@ -7,7 +7,7 @@ export default defineConfig({
   site: SITE.website,
   integrations: [sitemap()],
   vite: {
-    // Suppress the current type mismatch for this Vite plugin. See:
+    // Suppress the current type mismatch for Tailwind's plugin. See:
     // https://github.com/withastro/astro/issues/14030
     // eslint-disable-next-line
     // @ts-ignore

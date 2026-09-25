@@ -51,4 +51,5 @@ scripts/          generate-resume-{pdf,docx}.mjs, validate-resume-data.mjs
 public/assets/    Favicon, generated PDF/DOCX
 ```
 
-Prose in `src/` is linted by [Vale](https://vale.sh/) in CI.
+The test workflow runs [Vale](https://vale.sh/) on this README, Astro pages, and
+comments in TypeScript, JavaScript, and CSS files.
