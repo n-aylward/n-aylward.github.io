@@ -5,7 +5,11 @@ import LinkButton from "./LinkButton.astro";
 
 <nav aria-label="Social links" class="flex flex-wrap items-center gap-1">
   {SOCIALS.map(social => (
-    <LinkButton href={social.href} class="p-2 hover:rotate-6 sm:p-1">
+    <LinkButton
+      href={social.href}
+      target={social.href.startsWith("mailto:") ? undefined : "_blank"}
+      class="p-2 hover:rotate-6 sm:p-1"
+    >
       <social.icon
         aria-hidden="true"
         class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"
