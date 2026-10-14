@@ -79,6 +79,23 @@ html[data-theme="dark"] {
   @apply underline decoration-wavy decoration-2 underline-offset-8;
 }
 
+.resume-bullet-list > li {
+  position: relative;
+  padding-inline-start: 0.8em;
+  list-style: none;
+}
+
+.resume-bullet-list > li::before {
+  position: absolute;
+  inset-inline-start: 0;
+  top: calc((1lh - 0.3em) / 2);
+  width: 0.3em;
+  height: 0.3em;
+  border-radius: 9999px;
+  background-color: var(--accent);
+  content: "";
+}
+
 /* Leave space before an anchored element when the browser scrolls to it. */
 :target {
   scroll-margin-block: 1rem;
