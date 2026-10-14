@@ -96,7 +96,7 @@ export const RESUME = {
 
   experience: [
     {
-      company: "DataRobot, Inc. / Product and Engineering Teams",
+      company: "DataRobot, Inc.",
       location: "Boston, MA",
       dateRange: "January 2022 – September 2026",
       roles: [
@@ -137,7 +137,7 @@ export const RESUME = {
       ],
     },
     {
-      company: "Onapsis, Inc. / Product Team",
+      company: "Onapsis, Inc.",
       location: "Boston, MA",
       dateRange: "January 2021 – November 2021",
       roles: [
@@ -157,7 +157,7 @@ export const RESUME = {
       ],
     },
     {
-      company: "Rediker Software, Inc. / Software Development Department",
+      company: "Rediker Software, Inc.",
       location: "Hampden, MA",
       dateRange: "October 2016 – January 2021",
       roles: [
