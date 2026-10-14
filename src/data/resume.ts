@@ -28,7 +28,7 @@ export interface ResumeEducation {
 
 export const RESUME = {
   name: "Nick Aylward",
-  title: "Technical Writer",
+  title: "Principal Technical Writer",
 
   /** These are the paths to downloadable files generated during the build. */
   downloads: {
@@ -120,11 +120,11 @@ export const RESUME = {
           bullets: [
             "Built DataRobot's initial agentic AI documentation, including agent development guides, infrastructure for tracing, evaluation, and moderation, and template walkthroughs.",
             "Maintained DataRobot's NVIDIA AI Enterprise integration documentation, covering NIM container deployment from the NVIDIA GPU Cloud (NGC) gallery, embedding models for vector databases, and NeMo Guardrails moderation, while partially automating upkeep of the NIM reference tables.",
-            "Produced DataRobot's public-facing Workload API documentation (tutorial, CLI reference, and installation guide), translating internal engineering documentation into user-facing content.",
+            "Produced runnable Jupyter notebook tutorials, a CLI reference, and an installation and quick-start guide for DataRobot's public Workload API, translating internal engineering documentation into user-facing content.",
             "Prototyped an internal automation that drafts release notes directly from pull requests.",
             "Rebuilt the documentation site's Algolia search-indexing pipeline to extract visible page text instead of raw HTML and to split oversized sections into additional records instead of truncating them at Algolia's size limits, shipping the fix end-to-end across the Python index builders, CLI, and React search UI with new regression tests.",
             "Redesigned the search taxonomy's facet detection to track a major documentation restructuring, closed indexing gaps that had been dropping tabbed content and duplicating LLM sidecar files, and cut search-QA cycle time by enabling verification of search UI changes against live indexes without a full rebuild.",
-            "Managed the documentation site's Harness/MkDocs CI pipeline, shipping fixes for redirect handling, heading-hierarchy checks, prose linting, and link-checker exclusions.",
+            "Expanded the documentation site's Harness/MkDocs pull-request checks to catch Jinja errors, broken links, heading hierarchy, style, and spelling issues using Python, Vale, CSpell, and Cursor Bugbot; also fixed redirect handling and link-checker exclusions.",
             "Extended the documentation site's machine-readable documentation exports and improved Markdown link handling for LLM and agentic consumers of the site.",
             "Implemented a Python/Pillow-based image pipeline to resize, optimize, and recolor callout graphics across the documentation site.",
           ],
@@ -135,6 +135,7 @@ export const RESUME = {
           bullets: [
             "Documented the redesigned NextGen UI end-to-end across MLOps surfaces as part of DataRobot's platform-wide migration from its Classic UI.",
             "Contributed to early documentation for DataRobot's generative AI and LLM capabilities, including LLM evaluation, prompt monitoring, generative AI performance tracking, and the LLM playground.",
+            "Interviewed engineers and product managers, tested product workflows hands-on, and edited peer drafts to verify accuracy and apply house style.",
             "Managed backports and cherry-picks of documentation fixes to release branches for DataRobot's enterprise and on-premises releases.",
             "Added new documentation-site UI elements, including badges, admonition styling, and banners, and fixed responsive-navigation and search-UI issues.",
           ],
