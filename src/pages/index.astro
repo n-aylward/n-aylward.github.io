@@ -107,6 +107,9 @@ const printContacts = CONTACTS.map(contact =>
             <div class="mb-1 flex flex-col print:break-after-avoid">
               <h3 class="text-lg font-bold print:text-[10pt]">
                 {company.company}
+                <span class="ml-2 text-sm font-normal text-foreground/70 print:text-[8pt]">
+                  {company.location}
+                </span>
               </h3>
               <span class="text-sm text-foreground/75 print:text-[8pt]">
                 {company.dateRange}

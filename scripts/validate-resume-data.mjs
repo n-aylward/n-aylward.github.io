@@ -31,6 +31,7 @@ requiredArray(RESUME.experience, "experience", "Work experience");
 RESUME.experience?.forEach((company, i) => {
   const prefix = `experience[${i}] (${company?.company ?? "?"})`;
   required(company?.company, "company", "Company name");
+  required(company?.location, "location", "Company location");
   required(company?.dateRange, "dateRange", "Company date range");
   requiredArray(company?.roles, "roles", "Roles");
   company?.roles?.forEach((role, j) => {

@@ -94,7 +94,7 @@ const children = [
 
   heading("Work Experience"),
   ...RESUME.experience.flatMap(company => {
-    const rows = [dateRow(company.company, company.dateRange, { leftSize: 22 })];
+    const rows = [dateRow(`${company.company} · ${company.location}`, company.dateRange, { leftSize: 22 })];
 
     if (company.roles.length > 1) {
       for (const role of company.roles) {

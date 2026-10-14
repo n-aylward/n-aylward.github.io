@@ -9,6 +9,7 @@ export interface ResumeRole {
 
 export interface ResumeCompany {
   company: string;
+  location: string;
   dateRange: string;
   /**
    * Use one role for a single position, or several roles for positions
@@ -96,6 +97,7 @@ export const RESUME = {
   experience: [
     {
       company: "DataRobot, Inc. / Product and Engineering Teams",
+      location: "Boston, MA",
       dateRange: "January 2022 – September 2026",
       roles: [
         {
@@ -136,6 +138,7 @@ export const RESUME = {
     },
     {
       company: "Onapsis, Inc. / Product Team",
+      location: "Boston, MA",
       dateRange: "January 2021 – November 2021",
       roles: [
         {
@@ -155,6 +158,7 @@ export const RESUME = {
     },
     {
       company: "Rediker Software, Inc. / Software Development Department",
+      location: "Hampden, MA",
       dateRange: "October 2016 – January 2021",
       roles: [
         {
@@ -189,6 +193,7 @@ export const RESUME = {
     },
     {
       company: "UMass Amherst / University Health Services",
+      location: "Amherst, MA",
       dateRange: "September 2014 – August 2015",
       roles: [
         {
@@ -203,6 +208,7 @@ export const RESUME = {
     },
     {
       company: "UMass Amherst / Organismic and Evolutionary Biology Department",
+      location: "Amherst, MA",
       dateRange: "May 2014 – September 2014",
       roles: [
         {
