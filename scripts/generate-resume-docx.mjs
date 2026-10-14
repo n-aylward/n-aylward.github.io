@@ -58,16 +58,6 @@ function bullet(text) {
   });
 }
 
-function commaList(label, items) {
-  return new Paragraph({
-    spacing: { after: 120 },
-    children: [
-      new TextRun({ text: `${label}: `, bold: true }),
-      new TextRun({ text: items.join(", ") }),
-    ],
-  });
-}
-
 const children = [
   new Paragraph({
     spacing: { after: 40 },
@@ -88,28 +78,30 @@ const children = [
     children: [new TextRun({ text: RESUME.introduction })],
   }),
 
-  heading("Professional Skills"),
-  commaList("Proficiency", RESUME.skills.proficiency),
-  commaList("Familiarity", RESUME.skills.familiarity),
+  heading("Areas of Expertise"),
+  new Paragraph({
+    spacing: { after: 120 },
+    children: [new TextRun({ text: RESUME.areasOfExpertise.join(" | ") })],
+  }),
 
-  heading("Work Experience"),
-  ...RESUME.experience.flatMap(company => {
+  heading("Technical Proficiencies"),
+  new Paragraph({
+    spacing: { after: 120 },
+    children: [
+      new TextRun({ text: "Proficiency: ", bold: true }),
+      new TextRun({ text: RESUME.skills.proficiency.join(", ") }),
+      new TextRun({ text: "\nFamiliarity: ", bold: true, break: 1 }),
+      new TextRun({ text: RESUME.skills.familiarity.join(", ") }),
+    ],
+  }),
+
+  heading("Professional Experience"),
+  ...RESUME.experience.filter(company => !company.additional).flatMap(company => {
     const rows = [dateRow(`${company.company} · ${company.location}`, company.dateRange, { leftSize: 22 })];
 
-    if (company.roles.length > 1) {
-      for (const role of company.roles) {
-        rows.push(
-          dateRow(role.title, role.dateRange, { leftColor: ACCENT, leftSize: 20 })
-        );
-        rows.push(...role.bullets.map(bullet));
-      }
-    } else {
-      const role = company.roles[0];
+    for (const role of company.roles) {
       rows.push(
-        new Paragraph({
-          spacing: { after: 60 },
-          children: [new TextRun({ text: role.title, bold: true, color: ACCENT, size: 20 })],
-        })
+        dateRow(role.title, role.dateRange, { leftColor: ACCENT, leftSize: 20 })
       );
       rows.push(...role.bullets.map(bullet));
     }
@@ -117,6 +109,22 @@ const children = [
     rows.push(new Paragraph({ spacing: { after: 160 }, children: [] }));
     return rows;
   }),
+
+  heading("Additional Experience"),
+  ...RESUME.experience
+    .filter(company => company.additional)
+    .flatMap(company =>
+      [
+        dateRow(`${company.company} · ${company.location}`, company.dateRange, { leftSize: 22 }),
+        new Paragraph({
+          spacing: { after: 60 },
+          children: [
+            new TextRun({ text: company.roles[0].title, bold: true, color: ACCENT, size: 20 }),
+          ],
+        }),
+        ...company.roles[0].bullets.map(bullet),
+      ]
+    ),
 
   heading("Education"),
   dateRow(RESUME.education.institution, RESUME.education.dateRange, { leftSize: 22 }),
@@ -126,7 +134,10 @@ const children = [
       new TextRun({ text: RESUME.education.degree, bold: true, color: ACCENT, size: 20 }),
     ],
   }),
-  commaList("Relevant Coursework", RESUME.education.coursework),
+  new Paragraph({
+    spacing: { after: 120 },
+    children: [new TextRun({ text: RESUME.education.coursework.join(" · ") })],
+  }),
 ];
 
 const doc = new Document({

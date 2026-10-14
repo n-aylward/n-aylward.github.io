@@ -23,6 +23,8 @@ function requiredArray(value, path, label) {
 required(RESUME.name, "name", "Name");
 required(RESUME.title, "title", "Title");
 required(RESUME.introduction, "introduction", "Introduction");
+requiredArray(RESUME.areasOfExpertise, "areasOfExpertise", "Areas of expertise");
+requiredArray(RESUME.areasOfExpertise, "areasOfExpertise", "Areas of expertise");
 
 requiredArray(RESUME.skills?.proficiency, "skills.proficiency", "Proficiency skills");
 requiredArray(RESUME.skills?.familiarity, "skills.familiarity", "Familiarity skills");

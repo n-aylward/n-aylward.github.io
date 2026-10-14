@@ -11,6 +11,7 @@ export interface ResumeCompany {
   company: string;
   location: string;
   dateRange: string;
+  additional?: boolean;
   /**
    * Use one role for a single position, or several roles for positions
    * the person held at the same company over time.
@@ -37,6 +38,19 @@ export const RESUME = {
 
   introduction:
     "Principal Technical Writer specializing in developer documentation, docs-as-code infrastructure, and AI systems. Proven expertise authoring comprehensive documentation for agentic AI frameworks, LLM evaluation, NVIDIA NIM integrations, and developer APIs. Skilled at optimizing CI/CD publishing pipelines and search indexing, while leveraging AI development tools to deliver high-impact technical content.",
+
+  areasOfExpertise: [
+    "Developer Documentation",
+    "AI and LLM Documentation",
+    "API and CLI Documentation",
+    "Docs-as-Code and CI/CD",
+    "Search and Indexing",
+    "Information Architecture",
+    "Release Documentation",
+    "In-Product Guidance",
+    "Technical Editing and Style Systems",
+    "Documentation Automation",
+  ],
 
   skills: {
     proficiency: [
@@ -195,6 +209,7 @@ export const RESUME = {
       company: "UMass Amherst / University Health Services",
       location: "Amherst, MA",
       dateRange: "September 2014 – August 2015",
+      additional: true,
       roles: [
         {
           title: "New Student Immunization Program Assistant",
@@ -210,6 +225,7 @@ export const RESUME = {
       company: "UMass Amherst / Organismic and Evolutionary Biology Department",
       location: "Amherst, MA",
       dateRange: "May 2014 – September 2014",
+      additional: true,
       roles: [
         {
           title: "Undergraduate Research Assistant",
