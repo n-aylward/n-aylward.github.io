@@ -223,7 +223,7 @@ export const RESUME = {
       ],
     },
     {
-      company: "UMass Amherst / Organismic and Evolutionary Biology Department",
+      company: "UMass Amherst / Organismic & Evolutionary Biology Dept.",
       location: "Amherst, MA",
       dateRange: "May 2014 – September 2014",
       additional: true,
